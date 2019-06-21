@@ -1,0 +1,46 @@
+
+vector<vector<int> > Solution::solve(vector<vector<int> > &a) {
+    int n = a.size();
+    int m = a[0].size();
+    queue<pair<int, pair<int, int>>> q;
+    for(int i=0;i<n;i++)
+    {
+        for(int j =0;j<m;j++)
+        {
+            if(a[i][j] == 1)
+            {
+                a[i][j] = -1;
+                q.push({0, {i,j}});
+            }
+        }
+    }
+    while(!q.empty())
+    {
+        pair<int, pair<int, int>> p = q.front();
+        q.pop();
+        vector<int> dx = { 1, -1, 0, 0};
+        vector<int> dy = { 0, 0, 1, -1};
+        for(int i=0;i<4;i++)
+        {
+            int x = p.second.first + dx[i];
+            int y = p.second.second + dy[i];
+            if(x >= 0 && y >= 0 && x < n && y < m && a[x][y] == 0)
+            {
+                a[x][y] = p.first+1;
+                q.push({p.first +1, {x,y}});
+            }
+        }
+        
+    }
+    for(int i=0;i<n;i++)
+    {
+        for(int j =0;j<m;j++)
+        {
+            if(a[i][j] == -1)
+            {
+                a[i][j] = 0;
+            }
+        }
+    }
+    return a;
+}
