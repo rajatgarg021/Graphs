@@ -1,0 +1,47 @@
+int Solution::solve(vector<vector<int> > &a) 
+{
+    int m = a.size();
+    int n = a[0].size();
+    queue<pair<int, pair<int, int>>> q;
+    for(int i=0;i<m;i++)
+    {
+        for(int j =0;j<n;j++)
+        {
+            if(a[i][j] == 2)
+            {
+                q.push({0, {i,j}});
+            }
+        }
+    }
+    int mxm = 0;
+    while(!q.empty())
+    {
+        pair<int, pair<int, int>> p = q.front();
+        q.pop();
+        mxm = max(mxm, p.first);
+        vector<int> dx = { 0, 1, 0, -1};
+        vector<int> dy = { 1, 0, -1, 0};
+        for(int i=0;i<4;i++)
+        {
+            int x = p.second.first + dy[i];
+            int y = p.second.second + dx[i];
+            if(x >= 0 && y >= 0 && x < m && y < n && a[x][y] == 1)
+            {
+                a[x][y] = 0;
+                q.push({p.first +1, {x,y}});
+            }
+        }
+        
+    }
+    for(int i=0;i<m;i++)
+    {
+        for(int j =0;j<n;j++)
+        {
+            if(a[i][j] == 1)
+            {
+                return -1;
+            }
+        }
+    }
+    return mxm;
+}
