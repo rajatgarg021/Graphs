@@ -1,0 +1,53 @@
+
+void dfs(int a[SIZE][SIZE], int n, int m, int i, int j, bool vis[SIZE][SIZE],int count,unordered_map<int, int> &mp)
+{
+    if(vis[i][j] == 1)
+    {
+        return ;
+    }
+    vis[i][j] = 1;
+    
+    vector<int> dx = {1, 0, -1, 0, 1, 1, -1, -1};
+    vector<int> dy = {0, 1, 0, -1, 1, -1, 1, -1};
+    for(int q=0;q<8;q++)
+    {
+        int x = i + dx[q];
+        int y = j + dy[q];
+        if(x >= 0 && y >= 0 && x < n && y < m && a[x][y] == 1 && vis[x][y] == 0)
+        {
+            mp[count]++;
+            dfs(a, n, m, x, y, vis,count,  mp);
+        }
+    }
+}
+
+int findAreaUtil(int n, int m, int a[SIZE][SIZE], bool vis[SIZE][SIZE]){
+    
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            vis[i][j] = 0;
+            //if(a[i][j] == 1 && )
+        }
+    }
+    int count = 0;
+   unordered_map<int, int> mp;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(a[i][j] == 1 && vis[i][j] == 0)
+            {
+                count++;
+                dfs(a, n, m, i, j,vis, count, mp);
+            }
+        }
+    }
+    int mxm = 0;
+    for(auto i=mp.begin(); i != mp.end();i++)
+    {
+        mxm = max(mxm, i->second);
+    }
+    return mxm+1;
+}
